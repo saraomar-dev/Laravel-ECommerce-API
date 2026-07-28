@@ -24,14 +24,14 @@ class ProfileController extends Controller
     public function addPhone(Request $request)
     {
     $user=auth()->user();
-    $num=$request->validate(['phone_num'=>'required|string|min:11']);
+    $num=$request->validate(['phone'=>'required|string|min:11']);
     $user->update($num);
     return response()->json(['user'=>new UserResource($user),'message'=>'phone number was added successfully'], 200);
     }
     public function addAdress(Request $request)
     {
     $user=auth()->user();
-    $address=$request->validate(['adress'=>'required|string|max:50']);
+    $address=$request->validate(['address'=>'required|string|max:50']);
     $user->update($address);
     return response()->json(['user'=>new UserResource($user),'message'=>'address was added successfully'], 200);
     }

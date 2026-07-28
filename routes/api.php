@@ -3,7 +3,11 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CatrgoryController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\UserController;
 
 Route::get('/user', function (Request $request) {
@@ -25,3 +29,30 @@ Route::post('addImage',[ProfileController::class,'addImage'])->middleware('auth:
 Route::post('addPhone',[ProfileController::class,'addphone'])->middleware('auth:sanctum');
 Route::patch('/editProfile',[ProfileController::class,'editProfile'])->middleware('auth:sanctum');
 Route::post('/addAddress',[ProfileController::class,'addAdress'])->middleware('auth:sanctum');
+
+/*category routes*/
+Route::get('category/subcategories', [CategoryController::class, 'categories_with_sub']);
+Route::get('category/{category}/subcategory', [CategoryController::class, 'subcategories_of_category']);
+Route::apiResource('categories', CategoryController::class)->only(['store', 'destroy', 'update'])->middleware(['auth:sanctum', 'isAdmin']);
+Route::apiResource('categories', CategoryController::class)->only(['show', 'index']);
+
+/*sub-category routes*/
+//Route::get('subcategory/{subcategory}/products', [CategoryController::class, 'products_of_sub']);
+Route::apiResource('subcategories', SubcategoryController::class)->only(['store', 'destroy', 'update'])->middleware(['auth:sanctum', 'isAdmin']);
+Route::apiResource('subcategories', SubcategoryController::class)->only(['show']);
+Route::get('subcategory/{subcategory}/products/active', [SubcategoryController::class, 'active_products_of_sub']);
+Route::get('subcategory/{subcategory}/products/all', [SubcategoryController::class, 'all_products_of_sub'])->middleware(['auth:sanctum', 'isAdmin']);
+Route::get('subcategory/{subcategory}/products/inactive', [SubcategoryController::class, 'inactive_products_of_sub'])->middleware(['auth:sanctum', 'isAdmin']);;
+
+/*products routes*/
+Route::apiResource('products', ProductController::class)->only(['store', 'destroy', 'update','show'])->middleware(['auth:sanctum', 'isAdmin']);
+Route::apiResource('products', ProductController::class)->only(['index']);
+Route::post('products/{product}/image', [ProductController::class, 'addProductImage'])->middleware(['auth:sanctum', 'isAdmin']);
+Route::delete('products/image/{image}', [ProductController::class, 'deleteProductImage'])->middleware(['auth:sanctum', 'isAdmin']);
+Route::get('products/{product}/images', [ProductController::class, 'showProductImages']);
+Route::get('products/image/{image}', [ProductController::class, 'showProductImage']);
+Route::get('products/{product}/active', [ProductController::class, 'showActiveProduct']);
+Route::get('active', [ProductController::class, 'showActiveProducts']);
+Route::get('inactive', [ProductController::class, 'showInactiveProducts'])->middleware(['auth:sanctum', 'isAdmin']);
+
+Route::get('index/admin', [ProductController::class, 'index'])->middleware(['auth:sanctum', 'isAdmin']);

@@ -32,7 +32,7 @@ class UserController extends Controller
     'email'=>$request->email,
     'password'=>Hash::make($request->password),
     'name'=>$request->name,
-    'role'=>$request->role,
+    'role'=>$request->role?? 'user',
 
     ]);
     return response()->json(['user'=>new UserResource($user),
