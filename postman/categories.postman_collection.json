@@ -1,0 +1,282 @@
+{
+  "info": {
+    "_postman_id": "e57af764-7c60-4d50-a72f-9b68e7971ae2",
+    "name": "categories",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "56053649",
+    "_collection_link": "https://go.postman.co/collection/56053649-e57af764-7c60-4d50-a72f-9b68e7971ae2?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "add category",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{admin}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{url}}/api/categories?name=kkkk",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "categories"
+          ],
+          "query": [
+            {
+              "key": "name",
+              "value": "kkkk"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "delete category",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{admin}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url}}/api/categories/1",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "categories",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "show category",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{auth_secret_0irh}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url}}/api/categories/4",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "categories",
+            "4"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "show categories",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{admin}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url}}/api/categories",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "categories"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "show sub-categories of category",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url}}/api/category/5/subcategory",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "category",
+            "5",
+            "subcategory"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "update category",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{admin}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url}}/api/categories/1?name=electro",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "categories",
+            "1"
+          ],
+          "query": [
+            {
+              "key": "name",
+              "value": "electro"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "show categories with aub-categories",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url}}/api/category/subcategories",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "category",
+            "subcategories"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "New Request",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "auth_secret_0x2j"
+    },
+    {
+      "key": "auth_secret_0044"
+    }
+  ]
+}

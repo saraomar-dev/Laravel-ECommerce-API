@@ -1,0 +1,232 @@
+{
+  "info": {
+    "_postman_id": "65237d9c-5b87-40d9-bfc3-1532981e2119",
+    "name": "orders",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "56053649",
+    "_collection_link": "https://go.postman.co/collection/56053649-65237d9c-5b87-40d9-bfc3-1532981e2119?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "my orders(user)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{user}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept-Charset",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{url}}/api/order/my-orders",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "order",
+            "my-orders"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "my order(user)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{user}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{url}}/api/order/3",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "order",
+            "3"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "orders(admin)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{admin}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept-Charset",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{url}}/api/orders?search=&order_status=&payment_status=&payment_method=&sort=created_at&direction=desc",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "orders"
+          ],
+          "query": [
+            {
+              "key": "search",
+              "value": ""
+            },
+            {
+              "key": "order_status",
+              "value": ""
+            },
+            {
+              "key": "payment_status",
+              "value": ""
+            },
+            {
+              "key": "payment_method",
+              "value": ""
+            },
+            {
+              "key": "sort",
+              "value": "created_at"
+            },
+            {
+              "key": "direction",
+              "value": "desc"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "show order,filter,sort,search(admin)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{admin}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{url}}/api/orders/1",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "orders",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "edit order status (admin)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{admin}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept-Charset",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{url}}/api/orders/24?status=shipped",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "orders",
+            "24"
+          ],
+          "query": [
+            {
+              "key": "status",
+              "value": "shipped"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

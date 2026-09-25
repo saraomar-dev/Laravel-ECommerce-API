@@ -1,0 +1,254 @@
+{
+  "info": {
+    "_postman_id": "94cc68af-8a92-4f5d-82e5-eabc0ceec061",
+    "name": "sub-categories",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "56053649",
+    "_collection_link": "https://go.postman.co/collection/56053649-94cc68af-8a92-4f5d-82e5-eabc0ceec061?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "add sub-category",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{admin}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{url}}/api/subcategories?name=program12&category_id=1",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "subcategories"
+          ],
+          "query": [
+            {
+              "key": "name",
+              "value": "program12"
+            },
+            {
+              "key": "category_id",
+              "value": "1"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "update sub-category",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{admin}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url}}/api/subcategories/3?category_id=6&name=program1",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "subcategories",
+            "3"
+          ],
+          "query": [
+            {
+              "key": "category_id",
+              "value": "6"
+            },
+            {
+              "key": "name",
+              "value": "program1"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "delete sub-category",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{admin}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url}}/api/subcategories/3",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "subcategories",
+            "3"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "show sub-category",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/api/subcategories/1",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "subcategories",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "show active products of sub(user)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url}}/api/subcategory/2/products/active",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "subcategory",
+            "2",
+            "products",
+            "active"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "show all product of sub (admin)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{admin}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url}}/api/subcategory/1/products/all",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "subcategory",
+            "1",
+            "products",
+            "all"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "show inactive product of sub (admin)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{admin}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url}}/api/subcategory/1/products/inactive",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "subcategory",
+            "1",
+            "products",
+            "inactive"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
