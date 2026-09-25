@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\UpdateUserRequest;
@@ -10,17 +11,17 @@ use App\Http\Resources\UserResource;
 use Illuminate\Container\Attributes\Auth as AttributesAuth;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Facades\Gate;
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
-    { $users=User::paginate(5);
+    {
+        $users = User::paginate(5);
 
-    return  UserResource::collection($users);
-
+        return  UserResource::collection($users);
     }
 
     /**
@@ -28,15 +29,17 @@ class UserController extends Controller
      */
     public function store(RegisterRequest $request)
     {
-    $user= User::Create([
-    'email'=>$request->email,
-    'password'=>Hash::make($request->password),
-    'name'=>$request->name,
-    'role'=>$request->role?? 'user',
+        $user = User::Create([
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'name' => $request->name,
+            'role' => $request->role ?? 'user',
 
-    ]);
-    return response()->json(['user'=>new UserResource($user),
-                            'message'=>'created successfully'], 201);
+        ]);
+        return response()->json([
+            'user' => new UserResource($user),
+            'message' => 'created successfully'
+        ], 201);
     }
 
     /**
@@ -44,7 +47,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return response()->json(['user'=>new UserResource($user)], 200);
+        return response()->json(['user' => new UserResource($user)], 200);
     }
 
     /**
@@ -52,12 +55,13 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        if($user->role==='admin'&&auth()->id()!==$user->id){
+        if ($user->role === 'admin' && auth()->id() !== $user->id) {
             return response()->json([
-                            'message'=>'you can not edit another admin'], 403);
+                'message' => 'you can not edit another admin'
+            ], 403);
         }
         $user->update($request->validated());
-        return response()->json(['user'=>new UserResource($user),'message'=>'updated successfully'], 200);
+        return response()->json(['user' => new UserResource($user), 'message' => 'updated successfully'], 200);
     }
 
     /**
@@ -65,21 +69,16 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        if($user->role==='admin'&&auth()->id()!==$user->id){
-            return response()->json([
-                            'message'=>'you can not delete another admin'], 403);
+        // فحص الصلاحية - يرجع 403 بالرسالة المحددة في الـ Policy إذا فشل الفحص
+        Gate::authorize('delete', $user);
+        
+        if ($user->image) {
+            Storage::disk('public')->delete($user->image);
         }
-        if(auth()->id()===$user->id){
+        $user->tokens()->delete();
+        $user->delete();
         return response()->json([
-                            'message'=>'you can not delete your self'], 403);
+            'message' => 'user deleted successfully'
+        ], 200);
     }
-    if ($user->image) {
-    Storage::disk('public')->delete($user->image);
 }
-    $user->tokens()->delete();
-    $user->delete();
-     return response()->json([
-                            'message'=>'user deleted successfully'], 200);
-        }
-    }
-

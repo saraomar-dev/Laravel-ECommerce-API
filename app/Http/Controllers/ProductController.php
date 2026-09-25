@@ -73,13 +73,12 @@ class ProductController extends Controller
 
         //sort
         $allowedSorts = [
-
             'price',
             'name',
             'stock',
             'created_at'
-
         ];
+        
         if ($request->filled('sort')) {
             $sort = strtolower($request->sort);
             $direction = strtolower($request->direction ?? 'asc');

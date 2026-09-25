@@ -21,6 +21,7 @@ class ProductResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'brand' => $this->brand,
+            'is_in_stock' => $this->stock > 0,
             'status' =>  $this->when(
                 auth()->check() && auth()->user()->role === 'admin',
                 $this->status
