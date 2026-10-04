@@ -1,59 +1,127 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🛒 E-Commerce RESTful API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+[![Laravel](https://img.shields.io/badge/Laravel-11.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
+[![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://php.net)
+[![MySQL](https://img.shields.io/badge/MySQL-8.0+-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://mysql.com)
+[![Postman](https://img.shields.io/badge/Postman-Documented-FF6C37?style=for-the-badge&logo=postman&logoColor=white)](https://postman.com)
 
-## About Laravel
+A high-performance, enterprise-grade E-Commerce backend RESTful API built with **Laravel 11** and **PHP 8.2+**. Engineered around **Clean Architecture**, decoupled **Service Layers**, **ACID Transactions**, **Pessimistic Concurrency Controls**, cryptographic payment verification via **Paymob**, and asynchronous **Event-Driven Queues**.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 📖 Interactive API Documentation
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Explore full endpoint schemas, request headers, query parameters, and JSON response models via Fern or Postman:
 
-## Learning Laravel
+- 🌐 **[Live Interactive Documentation (Fern Hosted)](https://e-commerce-api.docs.buildwithfern.com)**
+- 📁 **[Postman Collection Export](https://documenter.getpostman.com/view/56053649/2sBYHNXi8T)** *(Optional workspace import)*
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🛠️ Tech Stack & Key Technologies
 
-## Laravel Sponsors
+* **Framework & Core:** PHP 8.2+ / Laravel 11.x
+* **Database & ORM:** MySQL 8.0+ / Eloquent ORM
+* **Authentication Engine:** Laravel Sanctum (Bearer Token Authorization)
+* **Payment Processing:** Paymob Accept API (Cards, Digital Wallets, Callback Webhooks)
+* **Asynchronous Jobs & Queues:** Laravel Queues (Database / Redis drivers)
+* **Event Dispatcher:** Laravel Events & Queued Listeners
+* **File Storage & Cleanup:** Laravel Storage (Local / Public Disk) with Automated Model Observers
+* **Testing & Documentation:** Fern / Postman Documentation
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## 🏗️ Architecture, Design Patterns & Clean Code
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+The application adheres strictly to **Clean Code**, **SOLID principles**, and strict **Separation of Concerns**:
 
-## Contributing
+* **Dedicated Service Layer:**
+  * Complex multi-step business logic is completely isolated from HTTP Controllers into specialized domain services:
+    * `PaymobService`: Handles payment integration pipelines, auth token generation, order registration, and payment keys.
+    * `OrderService`: Manages checkout lifecycles, totals calculation, and status transitions.
+    * `CartService`: Encapsulates cart state manipulations and inventory validation.
+  * Controllers remain thin, focusing exclusively on HTTP request orchestration and standardized responses.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+* **Encapsulated Data Transformation (API Resources):**
+  * All responses are structured through dedicated **Laravel API Resources & Resource Collections** (`ProductResource`, `OrderResource`, `CartResource`, `UserResource`).
+  * Prevents schema leakage and provides uniform JSON contracts decoupled from database column names.
 
-## Code of Conduct
+* **Strict Validation via Custom Form Requests:**
+  * Zero validation logic in controllers; all incoming payloads are sanitized and validated via dedicated **Form Request classes** (`StoreProductRequest`, `CheckoutRequest`, `RegisterRequest`, etc.), enforcing authorization rules and unified `422 Unprocessable Content` responses.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+* **Type-Safe Domain States (PHP 8.2+ Backed Enums):**
+  * Business rules and database flags are guarded using native Backed Enums:
+    * `OrderStatus` (`Pending`, `Processing`, `Delivered`, `Canceled`)
+    * `PaymentStatus` (`Unpaid`, `Paid`, `Failed`, `Refunded`)
+    * `PaymentMethod` (`Card`, `Wallet`, `CashOnDelivery`)
+    * `UserRole` (`Admin`, `Customer`)
 
-## Security Vulnerabilities
+* **Model-Level Authorization (Laravel Policies):**
+  * Granular policy enforcement (`OrderPolicy`, `CartPolicy`, `ProductPolicy`) verifying entity ownership and role privileges prior to write or update operations.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+* **Automated Media Cleanup (Model Observers):**
+  * Clean filesystem maintenance using **Laravel Model Observers** that automatically purge unlinked physical assets from `storage/` whenever records or image relations are updated or destroyed, preventing orphaned files.
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## ⚡ Database Optimization, Concurrency & Transactions
+
+* **Eliminating the N+1 Query Problem:**
+  * Strict implementation of **Eager Loading (`with(['category', 'subCategory', 'images'])`)** across relational endpoints, optimizing memory consumption and eliminating redundant queries.
+
+* **Concurrency Control & Pessimistic Locking:**
+  * High-concurrency checkout operations utilize **Pessimistic Locking (`lockForUpdate()`)** combined with atomic inventory adjustments to eliminate **Race Conditions**, stock over-selling, and negative inventory states.
+
+* **ACID Transactions (`DB::transaction`):**
+  * Critical checkout flows—including inventory deduction, cart clearing, order persistence, and payment token generation—are wrapped inside database transactions, guaranteeing atomic commits and immediate rollbacks on failure.
+
+* **Modular Query Scopes:**
+  * Domain-specific query filters encapsulated inside Eloquent **Query Scopes** (`scopeActive()`, `scopeFilter()`, `scopeSort()`), maintaining clean, readable, and reusable database queries.
+
+---
+
+## 🔒 Payment Engineering & Asynchronous Workflows
+
+* **Resilient HTTP Communication:**
+  * Direct integration with the **Paymob Accept API** using the **Laravel HTTP Client (`Http::timeout()->post(...)`)**, incorporating structured error handling and connection retries.
+
+* **Webhook HMAC Hash Verification:**
+  * Strict cryptographic verification of incoming Paymob Webhook callbacks via **HMAC SHA-512 signatures**, validating data integrity and shielding the system against payload tampering or spoofed payment success calls.
+
+* **Asynchronous Queue Pipeline & Event Listeners:**
+  * Non-blocking architecture where order placement and payment state transitions dispatch decoupled **Laravel Events & Queued Listeners** (`OrderPlacedEvent`, `PaymentSuccessEvent`), offloading invoice generation and transactional email notifications from the main execution thread.
+
+---
+
+## 📂 Core Endpoints Breakdown
+
+| Module | Method | Endpoint | Description | Auth Required |
+| :--- | :--- | :--- | :--- | :--- |
+| **Auth** | `POST` | `/api/register` | Register customer account & generate token | No |
+| **Auth** | `POST` | `/api/login` | Authenticate user credentials & issue token | No |
+| **Auth** | `POST` | `/api/logout` | Revoke active access token | Yes (Bearer) |
+| **Profile** | `GET` | `/api/showProfile` | Retrieve authenticated user profile | Yes (User) |
+| **Profile** | `PATCH` | `/api/editProfile` | Update user details, phone, and address | Yes (User) |
+| **Products** | `GET` | `/api/products` | Dynamic filtering, search, and pagination | No |
+| **Products** | `POST` | `/api/products` | Create product with cover image & attributes | Yes (Admin) |
+| **Products** | `POST` | `/api/products/{id}/image`| Upload additional gallery images | Yes (Admin) |
+| **Categories** | `GET` | `/api/categories` | List hierarchical categories & sub-categories | No |
+| **Categories** | `POST` | `/api/categories` | Create product category | Yes (Admin) |
+| **Cart** | `POST` | `/api/carts` | Add / increment items in shopping cart | Yes (User) |
+| **Cart** | `GET` | `/api/carts` | View cart items, quantity, and computed total | Yes (User) |
+| **Cart** | `DELETE`| `/api/carts/{id}` | Remove specific cart item | Yes (User) |
+| **Checkout** | `POST` | `/api/carts/checkout` | Trigger order lifecycle & Paymob payment URL | Yes (User) |
+| **Orders** | `GET` | `/api/order/my-orders` | View authenticated customer order history | Yes (User) |
+| **Orders** | `GET` | `/api/orders` | Search, filter, and review orders | Yes (Admin) |
+| **Orders** | `PATCH`| `/api/orders/{id}` | Update order status (e.g., delivered) | Yes (Admin) |
+| **Dashboard**| `GET` | `/api/dashboard` | Administrative overview metrics & statistics | Yes (Admin) |
+
+---
+
+## 🚀 Getting Started Locally
+
+### 1. Clone & Install
+```bash
+git clone [https://github.com/your-username/your-repo-name.git](https://github.com/your-username/your-repo-name.git)
+cd your-repo-name
+composer install
