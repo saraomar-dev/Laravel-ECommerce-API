@@ -121,6 +121,9 @@ class OrderController extends Controller
                 'message' => "you cannot change status from {$order->status->value} to {$newStatus->value}."
             ], 422);
         }
+        Mail::to($order->user->email)->send(
+                new OrderStatusChangedMail($order)
+            );
         DB::transaction(function () use ($newStatus,$order) {
         $payment = $order->payments()->where('method', 'cash_on_delivery')->latest()->first();
         if ($newStatus === OrderStatus::DELIVERED && $payment) {

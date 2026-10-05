@@ -1,0 +1,2838 @@
+{
+  "info": {
+    "_postman_id": "b697c80f-0824-4c06-8647-05cd746f8394",
+    "name": "E-Commerce API",
+    "description": "# 🛒 E-Commerce RESTful API Documentation\n\nA scalable, secure, and production-ready E-Commerce backend API built with **PHP 8+** and **Laravel 11**, designed with Clean Architecture and SOLID principles.\n\n---\n\n### 🛠️ Architecture & Core Engineering\n\n- **Authentication & Authorization:**\n    \n    - Stateless token authentication via **Laravel Sanctum**.\n        \n    - **Role-Based Access Control (RBAC):** Strict separation between Admin and Customer capabilities.\n        \n    - **Laravel Policies & Gates:** Granular resource authorization (securing carts, orders, and profile modifications based on ownership and privileges).\n        \n- **Payment Gateway Integration (Paymob):**\n    \n    - Integrated **Paymob Payment Gateway** (Card & Digital Wallets) for seamless and secure checkout processing.\n        \n    - Webhook handling and transaction status callbacks for real-time order updates.\n        \n- **Asynchronous Processing & Event-Driven Architecture:**\n    \n    - **Laravel Queues & Background Jobs:** Non-blocking order processing and heavy computation offloading.\n        \n    - **Events & Listeners:** Decoupled architecture handling order events, stock synchronization, and audit logging.\n        \n    - **Mail & Notifications:** Automated email notifications (order confirmations, invoices, and status changes) dispatched asynchronously via Queues.\n        \n- **Database & Transaction Integrity:**\n    \n    - Complex relational schema built with **MySQL** and **Eloquent ORM**.\n        \n    - **Database Transactions (****`DB::transaction`****):** Ensures atomic operations during checkout to prevent race conditions, stock inconsistency, or partial data persistence.\n        \n    - Comprehensive database migrations, factories, and seeders.\n        \n- **Advanced Search, Filtering & Catalogs:**\n    \n    - Dynamic querying supporting multi-parameter filtering (brand, category, sub-category, price range).\n        \n    - Optimized sorting and keyword search for high-volume catalogs.\n        \n- **Media & File Storage:**\n    \n    - Multi-image uploads and management for product galleries and user profile avatars using Laravel Storage.\n        \n\n---\n\n### 🔑 Authentication & Headers\n\nAll protected endpoints require the Bearer Token in the authorization header:\n\n``` http\nAuthorization: Bearer <your_access_token>\nAccept: application/json\nContent-Type: application/json\n\n ```",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "56053649",
+    "_collection_link": "https://go.postman.co/collection/56053649-b697c80f-0824-4c06-8647-05cd746f8394?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "admin",
+      "item": [
+        {
+          "name": "show users",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_secret_0irh}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/users",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "add user",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/users?name=fdkklgd&email=sara947842@gmail.com&password=12345678910&password confirmation=12345678910",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "users"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "fdkklgd"
+                },
+                {
+                  "key": "email",
+                  "value": "sara947842@gmail.com"
+                },
+                {
+                  "key": "password",
+                  "value": "12345678910"
+                },
+                {
+                  "key": "password confirmation",
+                  "value": "12345678910"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show user",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/users/2",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update user",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/users/4?role=admin",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "4"
+              ],
+              "query": [
+                {
+                  "key": "role",
+                  "value": "admin"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete user",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/users/3",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": " user management endpointsEndFragment"
+    },
+    {
+      "name": "auth",
+      "item": [
+        {
+          "name": "register",
+          "request": {
+            "auth": {
+              "type": "bearer"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/register?email=nodo202608@gmail.com&name=sara&password=12345678910&password confirmation=12345678910",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "register"
+              ],
+              "query": [
+                {
+                  "key": "email",
+                  "value": "nodo202608@gmail.com"
+                },
+                {
+                  "key": "name",
+                  "value": "sara"
+                },
+                {
+                  "key": "password",
+                  "value": "12345678910"
+                },
+                {
+                  "key": "password confirmation",
+                  "value": "12345678910"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "register",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{url}}/api/register?email=nodo202608@gmail.com&name=sara&password=12345678910&password confirmation=12345678910",
+                  "host": [
+                    "{{url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "register"
+                  ],
+                  "query": [
+                    {
+                      "key": "email",
+                      "value": "nodo202608@gmail.com"
+                    },
+                    {
+                      "key": "name",
+                      "value": "sara"
+                    },
+                    {
+                      "key": "password",
+                      "value": "12345678910"
+                    },
+                    {
+                      "key": "password confirmation",
+                      "value": "12345678910"
+                    }
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "connection",
+                  "value": "close"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "PHP/8.2.12"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "date",
+                  "value": "Sun, 04 Oct 2026 19:40:03 GMT"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"user\": {\n    \"id\": 30,\n    \"name\": \"sara\",\n    \"email\": \"nodo202608@gmail.com\",\n    \"address\": null,\n    \"role\": null,\n    \"phone number\": null,\n    \"image\": null\n  },\n  \"message\": \"registered successfully\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "log in",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/login?email=nodo20260@gmail.com&password=12345678910",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "login"
+              ],
+              "query": [
+                {
+                  "key": "email",
+                  "value": "nodo20260@gmail.com"
+                },
+                {
+                  "key": "password",
+                  "value": "12345678910"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "log in",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{url}}/api/login?email=nodo20260@gmail.com&password=12345678910",
+                  "host": [
+                    "{{url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "login"
+                  ],
+                  "query": [
+                    {
+                      "key": "email",
+                      "value": "nodo20260@gmail.com"
+                    },
+                    {
+                      "key": "password",
+                      "value": "12345678910"
+                    }
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "connection",
+                  "value": "close"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "PHP/8.2.12"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "date",
+                  "value": "Sun, 04 Oct 2026 19:44:18 GMT"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"log in successfully\",\n  \"user\": {\n    \"id\": 29,\n    \"name\": \"sara\",\n    \"email\": \"nodo20260@gmail.com\",\n    \"address\": null,\n    \"role\": \"user\",\n    \"phone number\": null,\n    \"image\": null\n  },\n  \"token\": \"5|MFkYCzp29gBsMZQ35z8LHXBXuTRK1pJwXdFYq8Ew83f54f88\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "log out",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{user}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/logout",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "logout"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "log out",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{url}}/api/logout",
+                  "host": [
+                    "{{url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "logout"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "connection",
+                  "value": "close"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "PHP/8.2.12"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "date",
+                  "value": "Sun, 04 Oct 2026 19:45:04 GMT"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"log out succesfully\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cart",
+      "item": [
+        {
+          "name": "store cart item",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{user}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept-Charset",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/carts/?product_id=2&quantity=1",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "carts",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "product_id",
+                  "value": "2"
+                },
+                {
+                  "key": "quantity",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "store cart item",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Charset",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{url}}/api/carts/?product_id=2&quantity=1",
+                  "host": [
+                    "{{url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "carts",
+                    ""
+                  ],
+                  "query": [
+                    {
+                      "key": "product_id",
+                      "value": "2"
+                    },
+                    {
+                      "key": "quantity",
+                      "value": "1"
+                    }
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "connection",
+                  "value": "close"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "PHP/8.2.12"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "date",
+                  "value": "Sun, 04 Oct 2026 19:45:57 GMT"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"cart item created successfully\",\n  \"cart_item\": {\n    \"id\": 7,\n    \"cart_id\": 7,\n    \"product_id\": \"2\",\n    \"quantity\": \"1\",\n    \"price\": 1011\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "checkout",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{user}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept-Charset",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"payment_method\": \"card\",\r\n  \"shipping_address\": {\r\n    \"name\": \"Ahmed\",\r\n    \"phone\": \"01012345678\",\r\n    \"city\": \"Cairo\",\r\n    \"area\": \"Nasr City\",\r\n    \"street\": \"Abbas El Akkad\",\r\n    \"building\": \"15\",\r\n    \"floor\": \"3\",\r\n    \"apartment\": \"12\"\r\n  }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/api/carts/checkout",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "carts",
+                "checkout"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "checkout",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Charset",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"payment_method\": \"card\",\r\n  \"shipping_address\": {\r\n    \"name\": \"Ahmed\",\r\n    \"phone\": \"01012345678\",\r\n    \"city\": \"Cairo\",\r\n    \"area\": \"Nasr City\",\r\n    \"street\": \"Abbas El Akkad\",\r\n    \"building\": \"15\",\r\n    \"floor\": \"3\",\r\n    \"apartment\": \"12\"\r\n  }\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{url}}/api/carts/checkout",
+                  "host": [
+                    "{{url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "carts",
+                    "checkout"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "connection",
+                  "value": "close"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "PHP/8.2.12"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "date",
+                  "value": "Sun, 04 Oct 2026 19:46:14 GMT"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"payment_url\": \"https://accept.paymob.com/unifiedcheckout/?publicKey=egy_pk_test_En4d4ChrLtywvFeVqROfIUXHOa3UpifA&clientSecret=egy_csk_test_f6f3366e05df67c64976d7efeac6ad62\",\n  \"order_id\": 67\n}"
+            }
+          ]
+        },
+        {
+          "name": "clear my cart",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{user}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/carts/clear",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "carts",
+                "clear"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "clear my cart",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{url}}/api/carts/clear",
+                  "host": [
+                    "{{url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "carts",
+                    "clear"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "connection",
+                  "value": "close"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "PHP/8.2.12"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "date",
+                  "value": "Sun, 04 Oct 2026 19:46:24 GMT"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"cart cleared successfully\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "destroy cart item",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{user}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/carts/2",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "carts",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show my cart",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{user}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/carts/?product_id=1&quantity=3",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "carts",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "product_id",
+                  "value": "1"
+                },
+                {
+                  "key": "quantity",
+                  "value": "3"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "categiries",
+      "item": [
+        {
+          "name": "show categories with aub-categories",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/category/subcategories",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "category",
+                "subcategories"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update category",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/categories/1?name=electro",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "categories",
+                "1"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "electro"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show sub-categories of category",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/category/5/subcategory",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "category",
+                "5",
+                "subcategory"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show categories",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/categories",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "categories"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show category",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_secret_0irh}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/categories/4",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "categories",
+                "4"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete category",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/categories/1",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "categories",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "add category",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/categories?name=kkkk",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "categories"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "kkkk"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "dashboard",
+      "item": [
+        {
+          "name": "view dashboard",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept-Charset",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/dashboard",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "dashboard"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "view dashboard",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Charset",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{url}}/api/dashboard",
+                  "host": [
+                    "{{url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "dashboard"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "connection",
+                  "value": "close"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "PHP/8.2.12"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "date",
+                  "value": "Sun, 04 Oct 2026 19:46:35 GMT"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Dashboard statistics retrieved successfully\",\n  \"data\": {\n    \"financial\": {\n      \"total_revenue\": 206130,\n      \"monthly_revenue\": 77546\n    },\n    \"orders\": {\n      \"total\": 67,\n      \"delivered\": 30,\n      \"shipped\": 18,\n      \"pending\": 19,\n      \"last_30_days\": 31\n    },\n    \"products\": {\n      \"total\": 36,\n      \"active\": 30,\n      \"inactive\": 6\n    },\n    \"users\": {\n      \"total_customers\": 29,\n      \"total_admins\": 1,\n      \"total_users\": 30\n    }\n  }\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "orders",
+      "item": [
+        {
+          "name": "my orders(user)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{user}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept-Charset",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/order/my-orders",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "order",
+                "my-orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "my order(user)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{user}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/order/3",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "order",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show order,filter,sort,search(admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept-Charset",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/orders?search=&order_status=&payment_status=&payment_method=&sort=created_at&direction=desc",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "orders"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": ""
+                },
+                {
+                  "key": "order_status",
+                  "value": ""
+                },
+                {
+                  "key": "payment_status",
+                  "value": ""
+                },
+                {
+                  "key": "payment_method",
+                  "value": ""
+                },
+                {
+                  "key": "sort",
+                  "value": "created_at"
+                },
+                {
+                  "key": "direction",
+                  "value": "desc"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "orders(admin)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Charset",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{url}}/api/orders?search=&order_status=&payment_status=&payment_method=&sort=created_at&direction=desc",
+                  "host": [
+                    "{{url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "orders"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": ""
+                    },
+                    {
+                      "key": "order_status",
+                      "value": ""
+                    },
+                    {
+                      "key": "payment_status",
+                      "value": ""
+                    },
+                    {
+                      "key": "payment_method",
+                      "value": ""
+                    },
+                    {
+                      "key": "sort",
+                      "value": "created_at"
+                    },
+                    {
+                      "key": "direction",
+                      "value": "desc"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "connection",
+                  "value": "close"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "PHP/8.2.12"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "date",
+                  "value": "Sun, 04 Oct 2026 19:49:34 GMT"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": 67,\n      \"status\": \"pending\",\n      \"subtotal\": \"1011.00\",\n      \"shipping_fee\": \"50.00\",\n      \"discount\": \"0.00\",\n      \"total\": \"1061.00\",\n      \"currency\": null,\n      \"shipping_address\": {\n        \"name\": \"Ahmed\",\n        \"phone\": \"01012345678\",\n        \"city\": \"Cairo\",\n        \"area\": \"Nasr City\",\n        \"street\": \"Abbas El Akkad\",\n        \"building\": \"15\",\n        \"floor\": \"3\",\n        \"apartment\": \"12\"\n      },\n      \"placed_at\": null,\n      \"cancelled_at\": null,\n      \"payments\": [\n        {\n          \"id\": 50,\n          \"method\": \"card\",\n          \"status\": \"pending\",\n          \"amount\": \"1061.00\",\n          \"currency\": null,\n          \"gateway\": \"paymob\",\n          \"transaction_id\": null,\n          \"paid_at\": null\n        }\n      ],\n      \"created_at\": \"2026-10-04T19:46:11.000000Z\",\n      \"updated_at\": \"2026-10-04T19:46:11.000000Z\"\n    },\n    {\n      \"id\": 66,\n      \"status\": \"pending\",\n      \"subtotal\": \"1011.00\",\n      \"shipping_fee\": \"50.00\",\n      \"discount\": \"0.00\",\n      \"total\": \"1061.00\",\n      \"currency\": null,\n      \"shipping_address\": {\n        \"name\": \"Ahmed\",\n        \"phone\": \"01012345678\",\n        \"city\": \"Cairo\",\n        \"area\": \"Nasr City\",\n        \"street\": \"Abbas El Akkad\",\n        \"building\": \"15\",\n        \"floor\": \"3\",\n        \"apartment\": \"12\"\n      },\n      \"placed_at\": null,\n      \"cancelled_at\": null,\n      \"payments\": [\n        {\n          \"id\": 49,\n          \"method\": \"card\",\n          \"status\": \"completed\",\n          \"amount\": \"1061.00\",\n          \"currency\": null,\n          \"gateway\": \"paymob\",\n          \"transaction_id\": \"547315672\",\n          \"paid_at\": \"2026-10-03T20:36:04.000000Z\"\n        }\n      ],\n      \"created_at\": \"2026-10-03T20:30:09.000000Z\",\n      \"updated_at\": \"2026-10-03T20:30:09.000000Z\"\n    },\n    {\n      \"id\": 65,\n      \"status\": \"delivered\",\n      \"subtotal\": \"1011.00\",\n      \"shipping_fee\": \"50.00\",\n      \"discount\": \"0.00\",\n      \"total\": \"1061.00\",\n      \"currency\": null,\n      \"shipping_address\": {\n        \"name\": \"Ahmed\",\n        \"phone\": \"01012345678\",\n        \"city\": \"Cairo\",\n        \"area\": \"Nasr City\",\n        \"street\": \"Abbas El Akkad\",\n        \"building\": \"15\",\n        \"floor\": \"3\",\n        \"apartment\": \"12\"\n      },\n      \"placed_at\": null,\n      \"cancelled_at\": null,\n      \"payments\": [\n        {\n          \"id\": 48,\n          \"method\": \"cash_on_delivery\",\n          \"status\": \"completed\",\n          \"amount\": \"1061.00\",\n          \"currency\": null,\n          \"gateway\": \"paymob\",\n          \"transaction_id\": null,\n          \"paid_at\": \"2026-10-03T20:29:30.000000Z\"\n        }\n      ],\n      \"created_at\": \"2026-10-03T20:28:00.000000Z\",\n      \"updated_at\": \"2026-10-03T20:29:30.000000Z\"\n    },\n    {\n      \"id\": 64,\n      \"status\": \"delivered\",\n      \"subtotal\": \"1011.00\",\n      \"shipping_fee\": \"50.00\",\n      \"discount\": \"0.00\",\n      \"total\": \"1061.00\",\n      \"currency\": null,\n      \"shipping_address\": {\n        \"name\": \"Ahmed\",\n        \"phone\": \"01012345678\",\n        \"city\": \"Cairo\",\n        \"area\": \"Nasr City\",\n        \"street\": \"Abbas El Akkad\",\n        \"building\": \"15\",\n        \"floor\": \"3\",\n        \"apartment\": \"12\"\n      },\n      \"placed_at\": null,\n      \"cancelled_at\": null,\n      \"payments\": [\n        {\n          \"id\": 47,\n          \"method\": \"cash_on_delivery\",\n          \"status\": \"completed\",\n          \"amount\": \"1061.00\",\n          \"currency\": null,\n          \"gateway\": \"paymob\",\n          \"transaction_id\": null,\n          \"paid_at\": \"2026-10-03T20:25:43.000000Z\"\n        }\n      ],\n      \"created_at\": \"2026-10-03T20:21:46.000000Z\",\n      \"updated_at\": \"2026-10-03T20:25:43.000000Z\"\n    },\n    {\n      \"id\": 63,\n      \"status\": \"delivered\",\n      \"subtotal\": \"1011.00\",\n      \"shipping_fee\": \"50.00\",\n      \"discount\": \"0.00\",\n      \"total\": \"1061.00\",\n      \"currency\": null,\n      \"shipping_address\": {\n        \"name\": \"Ahmed\",\n        \"phone\": \"01012345678\",\n        \"city\": \"Cairo\",\n        \"area\": \"Nasr City\",\n        \"street\": \"Abbas El Akkad\",\n        \"building\": \"15\",\n        \"floor\": \"3\",\n        \"apartment\": \"12\"\n      },\n      \"placed_at\": null,\n      \"cancelled_at\": null,\n      \"payments\": [\n        {\n          \"id\": 46,\n          \"method\": \"cash_on_delivery\",\n          \"status\": \"completed\",\n          \"amount\": \"1061.00\",\n          \"currency\": null,\n          \"gateway\": \"paymob\",\n          \"transaction_id\": null,\n          \"paid_at\": \"2026-10-03T20:20:59.000000Z\"\n        }\n      ],\n      \"created_at\": \"2026-10-03T20:19:47.000000Z\",\n      \"updated_at\": \"2026-10-03T20:20:59.000000Z\"\n    },\n    {\n      \"id\": 62,\n      \"status\": \"shipped\",\n      \"subtotal\": \"1011.00\",\n      \"shipping_fee\": \"50.00\",\n      \"discount\": \"0.00\",\n      \"total\": \"1061.00\",\n      \"currency\": null,\n      \"shipping_address\": {\n        \"name\": \"Ahmed\",\n        \"phone\": \"01012345678\",\n        \"city\": \"Cairo\",\n        \"area\": \"Nasr City\",\n        \"street\": \"Abbas El Akkad\",\n        \"building\": \"15\",\n        \"floor\": \"3\",\n        \"apartment\": \"12\"\n      },\n      \"placed_at\": null,\n      \"cancelled_at\": null,\n      \"payments\": [\n        {\n          \"id\": 45,\n          \"method\": \"cash_on_delivery\",\n          \"status\": \"pending\",\n          \"amount\": \"1061.00\",\n          \"currency\": null,\n          \"gateway\": \"paymob\",\n          \"transaction_id\": null,\n          \"paid_at\": null\n        }\n      ],\n      \"created_at\": \"2026-10-03T20:15:30.000000Z\",\n      \"updated_at\": \"2026-10-03T20:16:39.000000Z\"\n    },\n    {\n      \"id\": 61,\n      \"status\": \"pending\",\n      \"subtotal\": \"1011.00\",\n      \"shipping_fee\": \"50.00\",\n      \"discount\": \"0.00\",\n      \"total\": \"1061.00\",\n      \"currency\": null,\n      \"shipping_address\": {\n        \"name\": \"Ahmed\",\n        \"phone\": \"01012345678\",\n        \"city\": \"Cairo\",\n        \"area\": \"Nasr City\",\n        \"street\": \"Abbas El Akkad\",\n        \"building\": \"15\",\n        \"floor\": \"3\",\n        \"apartment\": \"12\"\n      },\n      \"placed_at\": null,\n      \"cancelled_at\": null,\n      \"payments\": [\n        {\n          \"id\": 44,\n          \"method\": \"cash_on_delivery\",\n          \"status\": \"pending\",\n          \"amount\": \"1061.00\",\n          \"currency\": null,\n          \"gateway\": \"paymob\",\n          \"transaction_id\": null,\n          \"paid_at\": null\n        }\n      ],\n      \"created_at\": \"2026-10-03T20:10:30.000000Z\",\n      \"updated_at\": \"2026-10-03T20:10:30.000000Z\"\n    },\n    {\n      \"id\": 58,\n      \"status\": \"delivered\",\n      \"subtotal\": \"1210.00\",\n      \"shipping_fee\": \"50.00\",\n      \"discount\": \"0.00\",\n      \"total\": \"1260.00\",\n      \"currency\": null,\n      \"shipping_address\": {\n        \"city\": \"Westshire\",\n        \"street\": \"32506 Matilda Rapids\",\n        \"phone\": \"01123456789\"\n      },\n      \"placed_at\": null,\n      \"cancelled_at\": null,\n      \"payments\": [\n        {\n          \"id\": 42,\n          \"method\": \"cash_on_delivery\",\n          \"status\": \"successful\",\n          \"amount\": \"1260.00\",\n          \"currency\": null,\n          \"gateway\": \"paymob\",\n          \"transaction_id\": \"TXN-90644116\",\n          \"paid_at\": \"2026-09-25T02:31:03.000000Z\"\n        }\n      ],\n      \"created_at\": \"2026-09-25T02:31:03.000000Z\",\n      \"updated_at\": \"2026-09-25T20:07:52.000000Z\"\n    },\n    {\n      \"id\": 36,\n      \"status\": \"shipped\",\n      \"subtotal\": \"8069.00\",\n      \"shipping_fee\": \"50.00\",\n      \"discount\": \"0.00\",\n      \"total\": \"8119.00\",\n      \"currency\": null,\n      \"shipping_address\": {\n        \"city\": \"Loraineside\",\n        \"street\": \"5632 DuBuque Row Apt. 851\",\n        \"phone\": \"01123456789\"\n      },\n      \"placed_at\": null,\n      \"cancelled_at\": null,\n      \"payments\": [\n        {\n          \"id\": 27,\n          \"method\": \"cash_on_delivery\",\n          \"status\": \"successful\",\n          \"amount\": \"8119.00\",\n          \"currency\": null,\n          \"gateway\": \"paymob\",\n          \"transaction_id\": \"TXN-86165377\",\n          \"paid_at\": \"2026-09-23T15:52:30.000000Z\"\n        }\n      ],\n      \"created_at\": \"2026-09-23T15:52:30.000000Z\",\n      \"updated_at\": \"2026-09-25T20:07:52.000000Z\"\n    },\n    {\n      \"id\": 50,\n      \"status\": \"pending\",\n      \"subtotal\": \"5748.00\",\n      \"shipping_fee\": \"50.00\",\n      \"discount\": \"0.00\",\n      \"total\": \"5798.00\",\n      \"currency\": null,\n      \"shipping_address\": {\n        \"city\": \"Richmondbury\",\n        \"street\": \"968 Kiara Grove\",\n        \"phone\": \"01123456789\"\n      },\n      \"placed_at\": null,\n      \"cancelled_at\": null,\n      \"payments\": [],\n      \"created_at\": \"2026-09-22T13:54:13.000000Z\",\n      \"updated_at\": \"2026-09-25T20:07:52.000000Z\"\n    }\n  ],\n  \"links\": {\n    \"first\": \"http://127.0.0.1:8000/api/orders?page=1\",\n    \"last\": \"http://127.0.0.1:8000/api/orders?page=7\",\n    \"prev\": null,\n    \"next\": \"http://127.0.0.1:8000/api/orders?page=2\"\n  },\n  \"meta\": {\n    \"current_page\": 1,\n    \"from\": 1,\n    \"last_page\": 7,\n    \"links\": [\n      {\n        \"url\": null,\n        \"label\": \"&laquo; Previous\",\n        \"page\": null,\n        \"active\": false\n      },\n      {\n        \"url\": \"http://127.0.0.1:8000/api/orders?page=1\",\n        \"label\": \"1\",\n        \"page\": 1,\n        \"active\": true\n      },\n      {\n        \"url\": \"http://127.0.0.1:8000/api/orders?page=2\",\n        \"label\": \"2\",\n        \"page\": 2,\n        \"active\": false\n      },\n      {\n        \"url\": \"http://127.0.0.1:8000/api/orders?page=3\",\n        \"label\": \"3\",\n        \"page\": 3,\n        \"active\": false\n      },\n      {\n        \"url\": \"http://127.0.0.1:8000/api/orders?page=4\",\n        \"label\": \"4\",\n        \"page\": 4,\n        \"active\": false\n      },\n      {\n        \"url\": \"http://127.0.0.1:8000/api/orders?page=5\",\n        \"label\": \"5\",\n        \"page\": 5,\n        \"active\": false\n      },\n      {\n        \"url\": \"http://127.0.0.1:8000/api/orders?page=6\",\n        \"label\": \"6\",\n        \"page\": 6,\n        \"active\": false\n      },\n      {\n        \"url\": \"http://127.0.0.1:8000/api/orders?page=7\",\n        \"label\": \"7\",\n        \"page\": 7,\n        \"active\": false\n      },\n      {\n        \"url\": \"http://127.0.0.1:8000/api/orders?page=2\",\n        \"label\": \"Next &raquo;\",\n        \"page\": 2,\n        \"active\": false\n      }\n    ],\n    \"path\": \"http://127.0.0.1:8000/api/orders\",\n    \"per_page\": 10,\n    \"to\": 10,\n    \"total\": 67\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "order(admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/orders/1",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "1"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "order(admin)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{url}}/api/orders/1",
+                  "host": [
+                    "{{url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "orders",
+                    "1"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "connection",
+                  "value": "close"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "PHP/8.2.12"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "date",
+                  "value": "Sun, 04 Oct 2026 19:49:48 GMT"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"Order retrieved successfully\",\n  \"data\": {\n    \"id\": 1,\n    \"status\": \"shipped\",\n    \"subtotal\": \"8340.00\",\n    \"shipping_fee\": \"50.00\",\n    \"discount\": \"0.00\",\n    \"total\": \"8390.00\",\n    \"currency\": null,\n    \"shipping_address\": {\n      \"city\": \"Port Fiona\",\n      \"street\": \"66139 Pauline Underpass\",\n      \"phone\": \"01123456789\"\n    },\n    \"placed_at\": null,\n    \"cancelled_at\": null,\n    \"items\": [\n      {\n        \"id\": 1,\n        \"product_id\": 7,\n        \"product_name\": \"non deserunt asperiores\",\n        \"unit_price\": \"1968.00\",\n        \"quantity\": 3,\n        \"subtotal\": \"5905.00\",\n        \"product_sku\": \"PROD-0720-OC\"\n      },\n      {\n        \"id\": 2,\n        \"product_id\": 15,\n        \"product_name\": \"iste nulla qui\",\n        \"unit_price\": \"2435.00\",\n        \"quantity\": 1,\n        \"subtotal\": \"2435.00\",\n        \"product_sku\": \"PROD-1751-YC\"\n      }\n    ],\n    \"payments\": [\n      {\n        \"id\": 1,\n        \"method\": \"cash_on_delivery\",\n        \"status\": \"successful\",\n        \"amount\": \"8390.00\",\n        \"currency\": null,\n        \"gateway\": \"paymob\",\n        \"transaction_id\": \"TXN-13671930\",\n        \"paid_at\": \"2026-08-22T17:27:51.000000Z\"\n      }\n    ],\n    \"created_at\": \"2026-08-22T17:27:51.000000Z\",\n    \"updated_at\": \"2026-09-25T20:07:51.000000Z\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "edit order status (admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept-Charset",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/orders/65?status=delivered",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "65"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "delivered"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "products",
+      "item": [
+        {
+          "name": "add product",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "cover_image",
+                  "type": "file",
+                  "src": "postman-cloud:///1f17a516-abb5-4e80-b3e1-3e0ed6109c06"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{url}}/api/products?name=Xiaomi Band 9&description=Smart band&brand=Xiaomi&status=active&sku=assafdfkjfj&price=2500&discount=25&stock=30&subcategory_id=1",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "Xiaomi Band 9"
+                },
+                {
+                  "key": "description",
+                  "value": "Smart band"
+                },
+                {
+                  "key": "brand",
+                  "value": "Xiaomi"
+                },
+                {
+                  "key": "status",
+                  "value": "active"
+                },
+                {
+                  "key": "sku",
+                  "value": "assafdfkjfj"
+                },
+                {
+                  "key": "price",
+                  "value": "2500"
+                },
+                {
+                  "key": "discount",
+                  "value": "25"
+                },
+                {
+                  "key": "stock",
+                  "value": "30"
+                },
+                {
+                  "key": "subcategory_id",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete product",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/products/3",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update product",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "cover_image",
+                  "type": "file",
+                  "uuid": "72d96cc8-c089-42db-a4c2-e01ae73d7f5f",
+                  "src": "postman-cloud:///1f17a516-abb5-4e80-b3e1-3e0ed6109c06"
+                },
+                {
+                  "key": "_method",
+                  "value": "PATCH",
+                  "type": "text",
+                  "uuid": "414bb4e6-91d9-4043-ba1f-662db6aedcad"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{url}}/api/products/1",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show any product(admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/products/1",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "1"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "show any product(admin)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{url}}/api/products/1",
+                  "host": [
+                    "{{url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "products",
+                    "1"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "connection",
+                  "value": "close"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "PHP/8.2.12"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "date",
+                  "value": "Sun, 04 Oct 2026 19:49:03 GMT"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"product\": {\n    \"id\": 1,\n    \"subcategory_id\": 1,\n    \"name\": \"quo odit totam\",\n    \"description\": \"Nobis nemo qui at error. Ipsa sed occaecati minima possimus. Optio earum aut sit eaque. Sunt saepe voluptas rerum doloremque.\",\n    \"brand\": \"Moore, Lueilwitz and Ryan\",\n    \"is_in_stock\": true,\n    \"status\": \"active\",\n    \"sku\": \"PROD-6157-JS\",\n    \"cover_image\": \"http://127.0.0.1:8000/storage/https://placehold.co/600x600?text=ipsa\",\n    \"price\": 2820,\n    \"stock\": 25\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "index(filter,search,sort)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/products?brand=Samsung&min_price=30000&max_price=50000",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ],
+              "query": [
+                {
+                  "key": "brand",
+                  "value": "Samsung"
+                },
+                {
+                  "key": "min_price",
+                  "value": "30000"
+                },
+                {
+                  "key": "max_price",
+                  "value": "50000"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "index(filter,search,sort) admin",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/index/admin?brand=&min_price=&max_price=",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "index",
+                "admin"
+              ],
+              "query": [
+                {
+                  "key": "brand",
+                  "value": ""
+                },
+                {
+                  "key": "min_price",
+                  "value": ""
+                },
+                {
+                  "key": "max_price",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "index(filter,search,sort) admin",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{url}}/api/index/admin?brand=&min_price=&max_price=",
+                  "host": [
+                    "{{url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "index",
+                    "admin"
+                  ],
+                  "query": [
+                    {
+                      "key": "brand",
+                      "value": ""
+                    },
+                    {
+                      "key": "min_price",
+                      "value": ""
+                    },
+                    {
+                      "key": "max_price",
+                      "value": ""
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "host",
+                  "value": "127.0.0.1:8000"
+                },
+                {
+                  "key": "connection",
+                  "value": "close"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "PHP/8.2.12"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "date",
+                  "value": "Sun, 04 Oct 2026 19:48:33 GMT"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"subcategory_id\": 1,\n      \"name\": \"quo odit totam\",\n      \"description\": \"Nobis nemo qui at error. Ipsa sed occaecati minima possimus. Optio earum aut sit eaque. Sunt saepe voluptas rerum doloremque.\",\n      \"brand\": \"Moore, Lueilwitz and Ryan\",\n      \"is_in_stock\": true,\n      \"status\": \"active\",\n      \"sku\": \"PROD-6157-JS\",\n      \"cover_image\": \"http://127.0.0.1:8000/storage/https://placehold.co/600x600?text=ipsa\",\n      \"price\": 2820,\n      \"stock\": 25\n    },\n    {\n      \"id\": 2,\n      \"subcategory_id\": 1,\n      \"name\": \"consectetur odio dolorem\",\n      \"description\": \"Et impedit nihil voluptates dolores omnis nam et. Eos est est quisquam ipsam provident. Repudiandae est magni autem.\",\n      \"brand\": \"Batz and Sons\",\n      \"is_in_stock\": true,\n      \"status\": \"active\",\n      \"sku\": \"PROD-8467-HT\",\n      \"cover_image\": \"http://127.0.0.1:8000/storage/https://placehold.co/600x600?text=cumque\",\n      \"price\": 1011,\n      \"stock\": 37\n    },\n    {\n      \"id\": 3,\n      \"subcategory_id\": 1,\n      \"name\": \"iusto enim ad\",\n      \"description\": \"Cupiditate eum quis aut. Corporis aut perferendis id. Blanditiis non et qui quo nihil hic.\",\n      \"brand\": \"Kerluke-Schaden\",\n      \"is_in_stock\": true,\n      \"status\": \"active\",\n      \"sku\": \"PROD-7500-JG\",\n      \"cover_image\": \"http://127.0.0.1:8000/storage/https://placehold.co/600x600?text=aut\",\n      \"price\": 1726,\n      \"stock\": 50,\n      \"discount\": 10,\n      \"final_price\": 1553.4\n    },\n    {\n      \"id\": 4,\n      \"subcategory_id\": 2,\n      \"name\": \"vel voluptate aliquam\",\n      \"description\": \"Cupiditate amet tempore aut soluta dolorem sit ut. Iusto qui nisi incidunt est. Ut quas vero velit ducimus tenetur ut porro.\",\n      \"brand\": \"Hand and Sons\",\n      \"is_in_stock\": true,\n      \"status\": \"active\",\n      \"sku\": \"PROD-6650-EG\",\n      \"cover_image\": \"http://127.0.0.1:8000/storage/https://placehold.co/600x600?text=aut\",\n      \"price\": 593,\n      \"stock\": 43\n    },\n    {\n      \"id\": 5,\n      \"subcategory_id\": 2,\n      \"name\": \"corporis maxime sit\",\n      \"description\": \"Dicta sit reprehenderit et ad ut. Et veniam quos repellendus quibusdam autem consequatur deleniti. Occaecati quia voluptas ipsam.\",\n      \"brand\": \"Kassulke LLC\",\n      \"is_in_stock\": true,\n      \"status\": \"active\",\n      \"sku\": \"PROD-4102-TS\",\n      \"cover_image\": \"http://127.0.0.1:8000/storage/https://placehold.co/600x600?text=dolorum\",\n      \"price\": 171,\n      \"stock\": 68,\n      \"discount\": 10,\n      \"final_price\": 153.9\n    },\n    {\n      \"id\": 6,\n      \"subcategory_id\": 2,\n      \"name\": \"est optio expedita\",\n      \"description\": \"Voluptatem veritatis accusantium omnis iste. Et sit et ut et inventore. Harum eum asperiores occaecati adipisci sed. Sit sunt doloribus quam sed.\",\n      \"brand\": \"Mertz-Brakus\",\n      \"is_in_stock\": true,\n      \"status\": \"active\",\n      \"sku\": \"PROD-4650-WE\",\n      \"cover_image\": \"http://127.0.0.1:8000/storage/https://placehold.co/600x600?text=nesciunt\",\n      \"price\": 1451,\n      \"stock\": 38,\n      \"discount\": 20,\n      \"final_price\": 1160.8\n    },\n    {\n      \"id\": 7,\n      \"subcategory_id\": 3,\n      \"name\": \"non deserunt asperiores\",\n      \"description\": \"Inventore qui harum sed iste ut. Numquam omnis beatae ipsa molestias neque pariatur nisi.\",\n      \"brand\": \"Terry, McGlynn and Schaefer\",\n      \"is_in_stock\": true,\n      \"status\": \"active\",\n      \"sku\": \"PROD-0720-OC\",\n      \"cover_image\": \"http://127.0.0.1:8000/storage/https://placehold.co/600x600?text=id\",\n      \"price\": 1968,\n      \"stock\": 62\n    },\n    {\n      \"id\": 8,\n      \"subcategory_id\": 3,\n      \"name\": \"suscipit dolor quae\",\n      \"description\": \"Tenetur unde tempore qui. Asperiores rerum dicta animi nihil libero. Expedita at nobis et non sed eum.\",\n      \"brand\": \"Will, Johnson and Walsh\",\n      \"is_in_stock\": true,\n      \"status\": \"active\",\n      \"sku\": \"PROD-4445-WA\",\n      \"cover_image\": \"http://127.0.0.1:8000/storage/https://placehold.co/600x600?text=quia\",\n      \"price\": 729,\n      \"stock\": 33\n    },\n    {\n      \"id\": 9,\n      \"subcategory_id\": 3,\n      \"name\": \"magni nostrum inventore\",\n      \"description\": \"Voluptate officiis ea quasi. Pariatur ab fuga eum nostrum. Aut iure adipisci veniam aut. Ut cumque illum et enim porro nesciunt.\",\n      \"brand\": \"Rutherford LLC\",\n      \"is_in_stock\": true,\n      \"status\": \"active\",\n      \"sku\": \"PROD-6743-DM\",\n      \"cover_image\": \"http://127.0.0.1:8000/storage/https://placehold.co/600x600?text=libero\",\n      \"price\": 1653,\n      \"stock\": 60,\n      \"discount\": 50,\n      \"final_price\": 826.5\n    },\n    {\n      \"id\": 10,\n      \"subcategory_id\": 4,\n      \"name\": \"possimus ad iste\",\n      \"description\": \"Voluptates est recusandae et deleniti sint doloribus. Hic ipsum aut sit quasi. Itaque iusto voluptatem quidem ab esse est voluptas dicta.\",\n      \"brand\": \"Connelly-Kutch\",\n      \"is_in_stock\": true,\n      \"status\": \"active\",\n      \"sku\": \"PROD-7416-UY\",\n      \"cover_image\": \"http://127.0.0.1:8000/storage/https://placehold.co/600x600?text=laboriosam\",\n      \"price\": 2221,\n      \"stock\": 55,\n      \"discount\": 20,\n      \"final_price\": 1776.8\n    }\n  ],\n  \"links\": {\n    \"first\": \"http://127.0.0.1:8000/api/index/admin?page=1\",\n    \"last\": \"http://127.0.0.1:8000/api/index/admin?page=4\",\n    \"prev\": null,\n    \"next\": \"http://127.0.0.1:8000/api/index/admin?page=2\"\n  },\n  \"meta\": {\n    \"current_page\": 1,\n    \"from\": 1,\n    \"last_page\": 4,\n    \"links\": [\n      {\n        \"url\": null,\n        \"label\": \"&laquo; Previous\",\n        \"page\": null,\n        \"active\": false\n      },\n      {\n        \"url\": \"http://127.0.0.1:8000/api/index/admin?page=1\",\n        \"label\": \"1\",\n        \"page\": 1,\n        \"active\": true\n      },\n      {\n        \"url\": \"http://127.0.0.1:8000/api/index/admin?page=2\",\n        \"label\": \"2\",\n        \"page\": 2,\n        \"active\": false\n      },\n      {\n        \"url\": \"http://127.0.0.1:8000/api/index/admin?page=3\",\n        \"label\": \"3\",\n        \"page\": 3,\n        \"active\": false\n      },\n      {\n        \"url\": \"http://127.0.0.1:8000/api/index/admin?page=4\",\n        \"label\": \"4\",\n        \"page\": 4,\n        \"active\": false\n      },\n      {\n        \"url\": \"http://127.0.0.1:8000/api/index/admin?page=2\",\n        \"label\": \"Next &raquo;\",\n        \"page\": 2,\n        \"active\": false\n      }\n    ],\n    \"path\": \"http://127.0.0.1:8000/api/index/admin\",\n    \"per_page\": 10,\n    \"to\": 10,\n    \"total\": 36\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "add product image",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "uuid": "3f8253e4-dc4d-4952-88b6-fdf14737e55f",
+                  "src": "postman-cloud:///1f17a516-abb5-4e80-b3e1-3e0ed6109c06"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{url}}/api/products/1/image",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "1",
+                "image"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete product image",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/products/image/1",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "image",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show product image",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/products/image/2",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "image",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show product images",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/products/1/images",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "1",
+                "images"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show active product(user)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/products/1/active",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "1",
+                "active"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show active products (user)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/active",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "active"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show inactive products (admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/inactive",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "inactive"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "profile",
+      "item": [
+        {
+          "name": "show my profile",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{user}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/showProfile",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "showProfile"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "edit my profle",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/editProfile?phone=0111&address=sdfjjs",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "editProfile"
+              ],
+              "query": [
+                {
+                  "key": "phone",
+                  "value": "0111"
+                },
+                {
+                  "key": "address",
+                  "value": "sdfjjs",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "add number to my profile",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/addPhone?phone=01280888989",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "addPhone"
+              ],
+              "query": [
+                {
+                  "key": "phone",
+                  "value": "01280888989"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "add image to my profile",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "uuid": "afed3b9c-c58b-4c26-ad70-21f0b43b6f41",
+                  "src": "postman-cloud:///1f175937-d282-4020-9623-fe959c242baf"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{url}}/api/addImage",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "addImage"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show any profile",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/profiles/1",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "profiles",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "add address",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/addAddress?address=sssssssssssss",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "addAddress"
+              ],
+              "query": [
+                {
+                  "key": "address",
+                  "value": "sssssssssssss"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "sub-categories",
+      "item": [
+        {
+          "name": "add sub-category",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/subcategories?name=program12&category_id=1",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "subcategories"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "program12"
+                },
+                {
+                  "key": "category_id",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update sub-category",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/subcategories/3?category_id=6&name=program1",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "subcategories",
+                "3"
+              ],
+              "query": [
+                {
+                  "key": "category_id",
+                  "value": "6"
+                },
+                {
+                  "key": "name",
+                  "value": "program1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete sub-category",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/subcategories/3",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "subcategories",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show sub-category",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/subcategories/1",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "subcategories",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show active products of sub(user)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/subcategory/2/products/active",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "subcategory",
+                "2",
+                "products",
+                "active"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show all product of sub (admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/subcategory/1/products/all",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "subcategory",
+                "1",
+                "products",
+                "all"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show inactive product of sub (admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/api/subcategory/1/products/inactive",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "subcategory",
+                "1",
+                "products",
+                "inactive"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
